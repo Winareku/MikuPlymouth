@@ -117,6 +117,22 @@ sudo cp "$THEME_DIR_LOCAL"/* "$THEME_DIR_SYS/"
 
 echo "Step 5: Rebuilding initramfs..."
 sudo plymouth-set-default-theme -R MikuPlymouth
-sudo mkinitcpio -P
+
+if command -v dracut &> /dev/null; then
+    # Works on Fedora, CachyOS, openSUSE
+    echo "Dracut detected..."
+    sudo dracut --force
+elif command -v mkinitcpio &> /dev/null; then
+    # Works on Arch, Manjaro
+    echo "mkinitcpio detected..."
+    sudo mkinitcpio -P
+elif command -v update-initramfs &> /dev/null; then
+    # Works on Ubuntu, Debian, Mint
+    echo "initramfs detected..."
+    sudo update-initramfs -u -k all
+else
+    echo "Warning: No known initramfs generator found."
+    echo "Please rebuild your initramfs manually to see the theme on boot."
+fi
 
 echo "Done! Picked 10 clips and installed. Reboot to see MIKU."
