@@ -1,0 +1,12 @@
+[Unit]
+Description=Rotate Miku Plymouth Clips Daily
+After=local-fs.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/MikuPlymouth
+ExecStart=/usr/bin/systemd-inhibit --why="Updating boot image with new Miku clips" --mode=block /usr/bin/bash /opt/MikuPlymouth/install.sh
+User=root
+
+[Install]
+WantedBy=multi-user.target

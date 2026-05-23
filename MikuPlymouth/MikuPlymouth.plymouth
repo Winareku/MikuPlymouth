@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=MikuPlymouth
+Description=A theme that plays random Miku clips
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/MikuPlymouth
+ScriptFile=/usr/share/plymouth/themes/MikuPlymouth/MikuPlymouth.script

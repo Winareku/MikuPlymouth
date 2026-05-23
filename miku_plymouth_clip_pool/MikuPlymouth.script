@@ -1,0 +1,85 @@
+# MikuPlymouth.script
+# Plays selected random clips from the Miku animation at exactly 24 FPS
+
+# Set background to black
+Window.SetBackgroundTopColor(0, 0, 0);
+Window.SetBackgroundBottomColor(0, 0, 0);
+
+# Screen size
+screen.w = Window.GetWidth(0);
+screen.h = Window.GetHeight(0);
+screen.half.w = screen.w / 2;
+screen.half.h = screen.h / 2;
+
+# Configuration
+# The clips you chose: 10, 14, 19, 27, 30
+clip_list[0] = 10;
+clip_list[1] = 14;
+clip_list[2] = 19;
+clip_list[3] = 27;
+clip_list[4] = 30;
+total_clips = 5;
+fps = 24;
+
+# State
+list_index = Math.Int(Math.Random() * total_clips);
+current_clip = clip_list[list_index];
+last_frame_name = "";
+miku_sprite = Sprite();
+
+# Timing
+start_time = Plymouth.GetTime();
+
+# Initial position
+ref_image = Image("clip010_frame1.png");
+if (ref_image) {
+    miku_sprite.SetX(Window.GetX() + (screen.half.w - ref_image.GetWidth() / 2));
+    miku_sprite.SetY(Window.GetY() + (screen.half.h - ref_image.GetHeight() / 2));
+}
+
+fun refresh_callback () {
+    elapsed = Plymouth.GetTime() - start_time;
+    frame_index = Math.Int(elapsed * fps) + 1;
+
+    # All chosen clips (10, 14, 19, 27, 30) have 24 frames
+    max_f = 24;
+
+    # If we finished the clip, pick new one from the list
+    if (frame_index > max_f) {
+        list_index = Math.Int(Math.Random() * total_clips);
+        current_clip = clip_list[list_index];
+        start_time = Plymouth.GetTime();
+        frame_index = 1;
+    }
+
+    # Format numbers: clipXXX_frameY.png
+    clip_str = "";
+    if (current_clip < 10) clip_str = "00" + current_clip;
+    else if (current_clip < 100) clip_str = "0" + current_clip;
+    else clip_str = "" + current_clip;
+    
+    image_name = "clip" + clip_str + "_frame" + frame_index + ".png";
+
+    # Only load/set if the frame changed
+    if (image_name != last_frame_name) {
+        last_frame_name = image_name;
+        miku_image = Image(image_name);
+        if (miku_image) {
+            miku_sprite.SetImage(miku_image);
+        }
+    }
+}
+
+Plymouth.SetRefreshFunction(refresh_callback);
+
+# -------------------------------------------------------------------------
+# Standard Handlers
+# -------------------------------------------------------------------------
+fun DisplayQuestionCallback(prompt, entry) {}
+Plymouth.SetDisplayQuestionFunction(DisplayQuestionCallback);
+fun DisplayPasswordCallback(nil, bulletCount) {}
+Plymouth.SetDisplayPasswordFunction(DisplayPasswordCallback);
+fun DisplayNormalCallback() {}
+Plymouth.SetDisplayNormalFunction(DisplayNormalCallback);
+fun MessageCallback(text) {}
+Plymouth.SetMessageFunction(MessageCallback);
