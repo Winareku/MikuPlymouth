@@ -26,7 +26,7 @@ cd MikuPlymouth
 chmod +x install.sh
 sudo ./install.sh
 ```
-To choose certain clips scroll down to **Customization**
+To choose certain clips, scroll down to **Customization**
 
 ### 2. Daily Automation (Recommended)
 Because of RAM and `initramfs` size limits, only 10 clips are active at once. Use the systemd timer to rotate them automatically:
