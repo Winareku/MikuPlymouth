@@ -153,25 +153,8 @@ fun DisplayNormalCallback(){} Plymouth.SetDisplayNormalFunction(DisplayNormalCal
 fun MessageCallback(t){} Plymouth.SetMessageFunction(MessageCallback);
 EOF
 
-echo "Step 4: Ensuring System Requirements (NVIDIA/KMS)..."
-if [ -f "$GRUB_CONF" ]; then
-    if ! grep -q "nvidia-drm.modeset=1" "$GRUB_CONF"; then
-        echo "Adding nvidia-drm.modeset=1 to GRUB..."
-        sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="/GRUB_CMDLINE_LINUX_DEFAULT="nvidia-drm.modeset=1 /' "$GRUB_CONF"
-        if command -v update-grub &> /dev/null; then
-            update-grub
-        elif [ -f /boot/grub/grub.cfg ]; then
-            grub-mkconfig -o /boot/grub/grub.cfg
-        fi
-    fi
-fi
-
-if [ -f "$MKINITCPIO_CONF" ]; then
-    if ! grep -q "nvidia" "$MKINITCPIO_CONF" | grep -q "MODULES=("; then
-        echo "Adding nvidia modules to mkinitcpio..."
-        sed -i 's/MODULES=(/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm /' "$MKINITCPIO_CONF"
-    fi
-fi
+echo "Step 4: Ensuring System Requirements..."
+# (Previous NVIDIA logic removed)
 
 echo "Step 5: Installing to system..."
 mkdir -p "$THEME_DIR_SYS"

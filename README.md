@@ -48,7 +48,7 @@ Because of RAM and `initramfs` size limits, only 10 clips are active at once. Us
    sudo systemctl enable --now miku-rotate.timer
    ```
 
-Miku will now silently refresh her routine 10 seconds after boot daily.
+Miku will now silently refresh her routine 1 minute after boot daily.
 
 ---
 
@@ -76,23 +76,10 @@ Plymouth runs in uncompressed RAM and 1080p images are heavy!
 - **10 clips** (240 frames) use **~2GB of RAM**.(I think)
 - Using more than 10 clips may cause the boot process to freeze or show a black screen depending on your hardware.
 
-### Black Srceen
+### Black Screen
 - It is possible that plymouth has crashed. The easiest fix is to modify install.sh to install less clips/
 - Locate the line: `selected_clips=$(echo "$available_clips" | shuf -n 10 | sort)`
 - Lower the number "10" until it's usable (4 should be enough for lower end devices)
-
-### NVIDIA Early KMS (Mandatory for RTX/GTX Cards) (Gemini found this fix, not sure if it does anything but I'll leave it here just in case)
-If you see a black screen or the animation only shows up right before the login screen, you must enable Early KMS:
-
-1. Edit `/etc/mkinitcpio.conf` and add the drivers to the `MODULES` array:
-   `MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)`
-2. Ensure your GRUB command line in `/etc/default/grub` contains:
-   `quiet splash nvidia-drm.modeset=1`
-3. Rebuild GRUB and Initramfs:
-   ```bash
-   sudo grub-mkconfig -o /boot/grub/grub.cfg
-   sudo mkinitcpio -P
-   ```
 
 ---
 

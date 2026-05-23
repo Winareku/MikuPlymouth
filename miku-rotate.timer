@@ -2,8 +2,8 @@
 Description=Run Miku Rotation Daily
 
 [Timer]
-# Run 5 minutes after every boot
-OnBootSec=10s
+# Run 1 minute after every boot
+OnBootSec=1m
 # Also run once every 24 hours thereafter
 OnUnitActiveSec=24h
 Persistent=true
