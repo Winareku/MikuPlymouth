@@ -1,34 +1,25 @@
-# Dynamic Miku Plymouth Theme (24 FPS)
-
-A cinematic, high-definition animated boot splash for Linux (Arch/CachyOS) featuring Hatsune Miku. This system uses a unique dynamic rotation engine to give you a fresh, zero-lag animation every time you boot.
+# Dynamic Miku Plymouth Theme
 
 **Artist Credit:** Original animations by [@x_cast_x](https://twitter.com/x_cast_x) on Twitter.
 
----
+- The install script picks 10 random clips from a pool of 37 for every installation.
+- The plymouth script also shuffle the 10 installed clips every boot.
+- Optional systemd timer to rotate clips routine automatically every day. (Manual setup)
 
-## ✨ Features
-
-- **Silky Smooth 24 FPS**: Expertly timed animation logic.
-- **Zero-Lag Transitions**: All frames are pre-loaded into RAM during the early boot phase.
-- **Instant Start**: The theme displays the first frame immediately while pre-loading the rest in the background to prevent black screens.
-- **Dynamic Rotation**: Pick 10 random clips from a pool of 37+ for every installation.
-- **Daily Variety**: Optional systemd timer to rotate Miku's routine automatically every day.
-
-## 📋 Prerequisites
+## Prerequisites
 
 - `plymouth`
 - `plymouth-plugin-script`
 - `mkinitcpio` (Arch-based systems)
-- **NVIDIA Users**: Requires Early KMS enabled (see Troubleshooting).
 
----
-
-## 🚀 Installation
+## Installation
 
 ### 1. Basic Setup
-Run the installer to pick 10 random clips from the pool and set them as your current boot theme:
+Clone and run the installer to pick 10 random clips from the pool and set them as your current boot theme:
 
 ```bash
+git clone https://github.com/Thang1191/MikuPlymouth
+cd MikuPlymouth
 chmod +x install.sh
 sudo ./install.sh
 ```
@@ -36,10 +27,10 @@ sudo ./install.sh
 ### 2. Daily Automation (Recommended)
 Because of RAM and `initramfs` size limits, only 10 clips are active at once. Use the systemd timer to rotate them automatically:
 
-1. **Move the project to a permanent location:**
+1. **Clone and move the project to a permanent location:**
    ```bash
-   sudo mkdir -p /opt/MikuPlymouth
-   sudo cp -r ./* /opt/MikuPlymouth/
+   git clone https://github.com/Thang1191/MikuPlymouth
+   sudo cp -r MikuPlymouth /opt/
    ```
 
 2. **Install the automation files:**
@@ -54,15 +45,15 @@ Because of RAM and `initramfs` size limits, only 10 clips are active at once. Us
    sudo systemctl enable --now miku-rotate.timer
    ```
 
-Miku will now silently refresh her routine 10 seconds after every boot.
+Miku will now silently refresh her routine 10 seconds after boot daily.
 
 ---
 
-## 🛠️ Customization
+## Customization
 
 ### Method 1: Pool Pruning (Easiest)
 If you only want certain clips to appear in the rotation:
-- Go to `/opt/MikuPlymouth/miku_plymouth_clip_pool/`.
+- Go to `MikuPlymouth/miku_plymouth_clip_pool/`.
 - Delete the folders or frames for clips you dislike.
 - The next time the script runs (manually or via timer), it will only pick from your favorites.
 
@@ -75,14 +66,19 @@ To force specific clips every time:
 
 ---
 
-## ⚠️ System Limitations & Troubleshooting
+## System Limitations & Troubleshooting
 
 ### RAM Usage
-Plymouth runs in uncompressed RAM. 1080p images are heavy! 
-- **10 clips** (240 frames) use **~2GB of RAM**.
+Plymouth runs in uncompressed RAM and 1080p images are heavy! 
+- **10 clips** (240 frames) use **~2GB of RAM**.(I think)
 - Using more than 10 clips may cause the boot process to freeze or show a black screen depending on your hardware.
 
-### NVIDIA Early KMS (Mandatory for RTX/GTX Cards)
+### Black Srceen
+- It is possible that plymouth has crashed. The easiest fix is to modify install.sh to install less clips/
+- Locate the line: `selected_clips=$(echo "$available_clips" | shuf -n 10 | sort)`
+- Lower the number "10" until it's usable (4 should be enough for lower end devices)
+
+### NVIDIA Early KMS (Mandatory for RTX/GTX Cards) (Gemini found this fix, not sure if it does anything but I'll leave it here just in case)
 If you see a black screen or the animation only shows up right before the login screen, you must enable Early KMS:
 
 1. Edit `/etc/mkinitcpio.conf` and add the drivers to the `MODULES` array:
@@ -97,9 +93,6 @@ If you see a black screen or the animation only shows up right before the login 
 
 ---
 
-## 🔍 Commands
-- **Manual Rotation**: `sudo /opt/MikuPlymouth/install.sh`
+## Commands
 - **Check Timer**: `systemctl list-timers miku-rotate.timer`
 - **View Logs**: `journalctl -u miku-rotate.service`
-- **Test Preview (In-Session)**: 
-  `xhost +local:root && sudo plymouthd --no-daemon --x11 & sleep 2 && sudo plymouth --show-splash`
