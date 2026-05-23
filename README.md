@@ -2,6 +2,8 @@
 
 **Artist Credit:** Original animations by [@x_cast_x](https://twitter.com/x_cast_x) on Twitter.
 
+<video src="./themepreview.mp4" width="100%" autoplay loop muted playsinline></video>
+
 - The install script picks 10 random clips from a pool of 37 for every installation.
 - The plymouth script also shuffle the 10 installed clips every boot.
 - Optional systemd timer to rotate clips routine automatically every day. (Manual setup)
