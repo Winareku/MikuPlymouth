@@ -1,8 +1,9 @@
 # Dynamic Miku Plymouth Theme
 
 **Artist Credit:** Original animations by [@x_cast_x](https://twitter.com/x_cast_x) on Twitter.
+## Preview
 
-<video src="https://github.com/MikuPlymouth/MikuPlymouth/raw/main/themepreview.mp4" width="100%" autoplay loop muted playsinline></video>
+https://github.com/user-attachments/assets/210208de-d814-414a-8e18-822979c38ce6
 
 - The install script picks 10 random clips from a pool of 37 for every installation.
 - The plymouth script also shuffle the 10 installed clips every boot.
