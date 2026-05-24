@@ -137,6 +137,20 @@ Plymouth runs in uncompressed RAM and 1080p images are heavy!
 - Lower the number '10' until it's usable (4 should be enough for lower end devices)
 - Run `install.sh`.
 
+### NVIDIA Early KMS (Mandatory for RTX/GTX Cards)
+If you see a black screen or the animation only shows up right before the login screen, you must enable Early KMS:
+
+This fix only applies to Arch based systems that uses mkinitcpio. If you use other distros, you will have to look up how to enable Early KMS yourself.
+
+1. Edit `/etc/mkinitcpio.conf` and add the drivers to the `MODULES` array:
+   `MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)`
+2. Ensure your GRUB command line in `/etc/default/grub` contains:
+   `quiet splash nvidia-drm.modeset=1`
+3. Rebuild GRUB and Initramfs:
+   ```bash
+   sudo grub-mkconfig -o /boot/grub/grub.cfg
+   sudo mkinitcpio -P
+
 ---
 
 ## Commands
