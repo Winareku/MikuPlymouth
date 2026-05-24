@@ -69,6 +69,13 @@ To force specific clips every time:
 3. Replace it with your specific clip IDs: `selected_clips="clip002 clip015 clip021"`
 4. Run `./install.sh` manually to apply.
 
+## Using all 37 clips (Not recommended)
+If you have a beefy computer and don't mind having 900+ frames of animation being loaded to ram every boot
+1. Open `install.sh`.
+2. Locate the line: `pickcount=10`
+3. Set the number to 37
+4. Run `install.sh`.
+
 ---
 ## NIXOS 
 1. Add the flake input
@@ -125,9 +132,10 @@ Plymouth runs in uncompressed RAM and 1080p images are heavy!
 - Using more than 10 clips may cause the boot process to freeze or show a black screen depending on your hardware.
 
 ### Black Screen
-- It is possible that plymouth has crashed. The easiest fix is to modify install.sh to install less clips/
+- It is possible that plymouth has crashed. The easiest fix is to modify `install.sh` to install less clips
 - Locate the line: `pickcount=10`
 - Lower the number '10' until it's usable (4 should be enough for lower end devices)
+- Run `install.sh`.
 
 ---
 
