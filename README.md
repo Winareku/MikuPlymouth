@@ -1,5 +1,8 @@
 # Dynamic Miku Plymouth Theme
 
+**Fork Notice (security-hardened fork)**  
+This is a security-hardened fork intended for Arch-based systems (notably CachyOS) using systemd-boot, mkinitcpio/UKIs and X11 (i3wm). It preserves the original animations and artist credit — only installer/service robustness and security have been improved. See [FORK_NOTES.md](FORK_NOTES.md) for the full changelog and targeted audience.
+
 **Artist Credit:** Original animations by [@x_cast_x](https://twitter.com/x_cast_x) on Twitter.
 ## Preview
 

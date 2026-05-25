@@ -5,8 +5,13 @@ After=local-fs.target
 [Service]
 Type=oneshot
 WorkingDirectory=/opt/MikuPlymouth
-ExecStart=/usr/bin/systemd-inhibit --why="Updating boot image with new Miku clips" --mode=block /usr/bin/bash /opt/MikuPlymouth/install.sh
+ExecStart=/usr/bin/systemd-inhibit --why="Updating boot image with new Miku clips" --mode=block /usr/bin/bash /opt/MikuPlymouth/install.sh --no-initramfs
 User=root
+ProtectSystem=full
+ProtectHome=yes
+PrivateTmp=yes
+NoNewPrivileges=yes
+ReadWritePaths=/usr/share/plymouth/themes/MikuPlymouth /opt/MikuPlymouth
 
 [Install]
 WantedBy=multi-user.target
